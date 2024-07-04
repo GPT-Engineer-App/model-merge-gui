@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { toast } from "sonner";
 
 const Index = () => {
   const [mergeResult, setMergeResult] = useState("");
@@ -12,10 +13,27 @@ const Index = () => {
   const [model1, setModel1] = useState("");
   const [model2, setModel2] = useState("");
 
-  const handleMergeModels = () => {
-    // Implement merge models logic here
-    console.log("Merging models:", model1, model2);
-    setMergeResult("Merged model result...");
+  const handleMergeModels = async () => {
+    try {
+      const response = await fetch("/api/merge-models", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ model1, model2 }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to merge models");
+      }
+
+      const data = await response.json();
+      setMergeResult(data.result);
+      toast.success("Models merged successfully!");
+    } catch (error) {
+      console.error("Error merging models:", error);
+      toast.error("Error merging models");
+    }
   };
 
   const handleTrainModel = () => {
