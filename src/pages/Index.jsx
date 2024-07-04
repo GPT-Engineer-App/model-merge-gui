@@ -9,9 +9,12 @@ const Index = () => {
   const [mergeResult, setMergeResult] = useState("");
   const [trainResult, setTrainResult] = useState("");
   const [quantizeResult, setQuantizeResult] = useState("");
+  const [model1, setModel1] = useState("");
+  const [model2, setModel2] = useState("");
 
   const handleMergeModels = () => {
     // Implement merge models logic here
+    console.log("Merging models:", model1, model2);
     setMergeResult("Merged model result...");
   };
 
@@ -36,7 +39,8 @@ const Index = () => {
         </TabsList>
         <TabsContent value="merge">
           <div className="space-y-4">
-            <Input placeholder="Model URL or ID" />
+            <Input placeholder="Model 1 URL or ID" value={model1} onChange={(e) => setModel1(e.target.value)} />
+            <Input placeholder="Model 2 URL or ID" value={model2} onChange={(e) => setModel2(e.target.value)} />
             <Select>
               <SelectTrigger>
                 <SelectValue placeholder="Select attribute or weight" />
